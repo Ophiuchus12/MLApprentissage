@@ -1,5 +1,5 @@
 import numpy as np
-
+#Compréhension des dimensions, formes, types et tailles des tableaux numpy
 #tableau 1 dimension
 vecteur = np.array([1, 2, 3, 4, 5])
 

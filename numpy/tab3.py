@@ -1,7 +1,8 @@
 import numpy as np
 
-#acceder au donnees dans le tableau de dimension 1
+#acceder au donnees dans les tableaux numpy
 
+#acceder au donnees dans le tableau de dimension 1
 vecteur = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 print("Acceder aux donnees dans le tableau \n")
 print("Tableau vecteur = \n", vecteur)
