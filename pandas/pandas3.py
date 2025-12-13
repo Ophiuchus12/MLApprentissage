@@ -12,9 +12,6 @@ print(f"myDataSet = \n{myDataSet}")
 myDataSet2 = data.iloc[2:5]
 print(f"\nmyDataSet2 = \n{myDataSet2}")
 
-#lire une colonne spécifique
-myDataSet3 = data['STATION']
-print(f"\nmyDataSet3 = \n{myDataSet3}")
 
 #Parcourir les lignes d'un dataframe
 print("\nParcourir les lignes d'un dataframe \n")
