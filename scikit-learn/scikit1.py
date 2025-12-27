@@ -60,33 +60,60 @@ print (f"\n describe new data standardisées \n {dataStandadization.describe()}"
 #ENTRAINEMENT
 #pour appliquer l'algo linieaire -> creation d'un JDD de test 
 x_train, x_test, y_train, y_test = train_test_split(data, y, test_size=0.2)
-
 #Instantiation algo lineaire
 regression_alg = LinearRegression()
 #resultat de l'instruction ci-dessous -> modele qui peut etre utiliser pour predire la concetration d'air en ozone en partant des 10 variables explicatives
 regression_alg.fit(x_train, y_train)
-
 #calculs de métrique de performances 
 train_prediction = regression_alg.predict(x_train)
 
 # Calcul et affichage de la racine de l'erreur quadratique moyenne (RMSE) arrondie à 2 décimales
 # Le RMSE mesure l'écart moyen entre les prédictions et les valeurs réelles d'entraînement
 print (f"RMSE = {round(sqrt(mean_squared_error(y_train, train_prediction)),2)}")
-
 # Calcul et affichage du coefficient de détermination (R²) arrondi à 2 décimales
 # Le R² mesure la proportion de variance expliquée par le modèle (entre 0 et 1, plus proche de 1 est mieux)
 print(f"R2_score = {round(r2_score(y_train, train_prediction),2)}")
-
-
 print("\n display du modele \n")
 display_model(x_train= x_train, regression_alg=regression_alg)
 
 
 #TEST AVEC DATA NON VUES PAR NOTRE MODEL
-
 test_prediction = regression_alg.predict(x_test)
 print (f"\nRMSE = {round(sqrt(mean_squared_error(y_test, test_prediction)),2)}\n")
 print(f"\nR2_score = {round(r2_score(y_test, test_prediction),2)}\n")
-
 #display y attendues vs y preditent
 graph_test_prediction(y_test_known=y_test, test_prediction=test_prediction)
+
+
+
+#Evaluation du modele
+#Comme à chaque lancement du fichier la selection des données d'entrainement et de test est différente alors le resultat de R2 et RMSE aussi
+#Creation d'une méthode pour faire la moyenne des resultat pour n iteration 
+
+def average_result (data, y, nb_iteration) :
+    average_rmse_value = 0 
+    average_r2_value = 0 
+
+    for i_run in range (nb_iteration):
+        x_train, x_test, y_train, y_test = train_test_split(data, y, test_size=0.2)
+        regression_alg = LinearRegression()
+        regression_alg.fit(x_train,y_train)
+        test_prediction = regression_alg.predict(x_test)
+
+        i_run_rmse = round(sqrt(mean_squared_error(y_test, test_prediction)),2)
+        i_run_r2 = round(r2_score(y_test, test_prediction),2)
+
+        print (f"\n Run nb {i_run} : rmse value {i_run_rmse}, r2 value {i_run_r2}")
+
+        average_rmse_value = average_rmse_value + i_run_rmse
+        average_r2_value = average_r2_value + i_run_r2
+
+    average_rmse_value = average_rmse_value / nb_iteration
+    average_r2_value = average_r2_value / nb_iteration
+
+    print (f"\nRMSE average value : {round (average_rmse_value, 2)}\n")
+    print (f"\n R2 average value : {round (average_r2_value, 2)}")
+
+
+print ("-"*100)
+average_result(data, y, 10)
