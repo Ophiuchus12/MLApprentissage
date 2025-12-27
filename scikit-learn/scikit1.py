@@ -19,6 +19,8 @@ from sklearn.metrics import mean_squared_error, r2_score
 # Outils de prétraitement des données (normalisation, standardisation, etc.)
 from sklearn import preprocessing
 
+from common import display_model, graph_test_prediction
+
 #Recuperation des data
 
 data = pd.read_csv('Data/ozone.csv', sep=r'\s+')
@@ -55,7 +57,7 @@ print (f"data standardisées \n{dataStandadization}")
 print (f"\n describe new data standardisées \n {dataStandadization.describe()}")
 
 #Construction d'un modele lineaire 
-
+#ENTRAINEMENT
 #pour appliquer l'algo linieaire -> creation d'un JDD de test 
 x_train, x_test, y_train, y_test = train_test_split(data, y, test_size=0.2)
 
@@ -74,3 +76,17 @@ print (f"RMSE = {round(sqrt(mean_squared_error(y_train, train_prediction)),2)}")
 # Calcul et affichage du coefficient de détermination (R²) arrondi à 2 décimales
 # Le R² mesure la proportion de variance expliquée par le modèle (entre 0 et 1, plus proche de 1 est mieux)
 print(f"R2_score = {round(r2_score(y_train, train_prediction),2)}")
+
+
+print("\n display du modele \n")
+display_model(x_train= x_train, regression_alg=regression_alg)
+
+
+#TEST AVEC DATA NON VUES PAR NOTRE MODEL
+
+test_prediction = regression_alg.predict(x_test)
+print (f"\nRMSE = {round(sqrt(mean_squared_error(y_test, test_prediction)),2)}\n")
+print(f"\nR2_score = {round(r2_score(y_test, test_prediction),2)}\n")
+
+#display y attendues vs y preditent
+graph_test_prediction(y_test_known=y_test, test_prediction=test_prediction)

@@ -2,3 +2,4 @@
 #environment directories
 /venv
 
+__pycache__
