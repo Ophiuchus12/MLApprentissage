@@ -52,9 +52,10 @@ def standardisation(data_standar):
     return data_standar
 
 
-dataStandadization = standardisation(data)
-print (f"data standardisées \n{dataStandadization}")
-print (f"\n describe new data standardisées \n {dataStandadization.describe()}")
+standardisation(data)
+print (f"data standardisées \n{standardisation(data)}")
+print (f"\n describe new data standardisées \n {standardisation(data).describe()}")
+print (f"\n data post ope {data}")
 
 #Construction d'un modele lineaire 
 #ENTRAINEMENT
