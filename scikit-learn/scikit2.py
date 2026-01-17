@@ -13,7 +13,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 # Outils de prétraitement des données (normalisation, standardisation, etc.)
 from sklearn import preprocessing
 
-from common import display_model, graph_test_prediction
+from common import display_model, graph_test_prediction, create_evaluate_model
 
 #Recuperation des data
 
@@ -54,6 +54,11 @@ print (f"\n data post ope {data.head(5)}")
 
 
 #COMPARAISON DE train_test_split et de KFOLD
+#train_test_split -> retourne directement les jeux de données (les données elles-mêmes, pas les indices)
+#KFold -> retourne les indices des jeux de données (il faut ensuite aller chercher les données dans le DataFrame à partir de ces indices)
+
+
+
 kf = KFold(n_splits=2, shuffle=False)
 #print de 2 dataset à partir de data
 for train_index, test_index in kf.split(data):
@@ -83,7 +88,34 @@ for train_index, test_index in kf3.split(data):
 # N = nombre total d’observations
 # n_splits = k
 # Alors, approximativement :
-# taille du test=Nk
 # taille du test= N/k
 # taille du train=N−taille du test≈N⋅k−1/k
 
+
+
+##############################
+#EVALUATION DU MODELE AVEC KFOLD
+##############################
+
+nb_model = 5 
+#5 plis (folds) ->1 pli sert de jeu de test,4 plis servent de jeu d’entraînement
+
+kf=KFold(n_splits=nb_model, shuffle=False)
+
+index_fold = 0 
+average_rmse = 0
+average_r2 = 0
+
+for train_index, test_index in kf.split(data):
+    x_train, x_test = data.iloc[train_index], data.iloc[test_index]
+    y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+
+    current_rmse, current_r2 = create_evaluate_model(index_fold, x_train, x_test, y_train, y_test)
+    average_rmse = average_rmse + current_rmse
+    average_r2 = average_r2 + current_r2
+    index_fold = index_fold + 1
+
+average_rmse = average_rmse / nb_model
+average_r2 = average_r2 / nb_model
+print (f"\nAverage RMSE over {nb_model} folds : {round(average_rmse,2)}")
+print (f"\nAverage R2 over {nb_model} folds : {round(average_r2,2)}")

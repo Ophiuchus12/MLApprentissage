@@ -1,3 +1,7 @@
+################################
+#Creation d'un modele linéaire
+################################
+
 #Creation d'un modele linéaire multiple pour prédire la pollution dans une ville
 #Variable vent et pluie -> qualitative (pour devenir quantitative les transformer en valeurs numeriques)
 #Dans notre exemple la variable à expliquer est Maxo3
