@@ -73,3 +73,78 @@ graph_test_prediction(y_test, test_prediction)
 # EVALUATION SUR LE JEU DE TEST
 # RMSE sur le jeu de test : 32.72
 # R2 sur le jeu de test : -0.75
+
+#Explication des valeurs de R2 :
+#si R2 est négatif, cela signifie que le modèle est moins performant que la simple moyenne des valeurs cibles.
+#En d'autres termes, utiliser la moyenne des valeurs cibles comme prédiction donnerait des résultats meilleurs que ceux du modèle.
+#Cela indique que le modèle ne parvient pas à capturer la relation entre les variables indépendantes et la variable dépendante, et qu'il est donc inutile dans ce contexte.
+#ATTENTION : R2 sensible aux valeurs extrêmes
+
+
+
+#test avec cas degree 3
+
+polynomial_features3 = PolynomialFeatures(degree=3)
+poly_regression_alg3 = LinearRegression()
+model3 = Pipeline ([
+    ("polynomial_features", polynomial_features3),
+    ("linear_regression", poly_regression_alg3)
+])
+
+model3.fit(x_train, y_train)
+train_prediction3 = model3.predict(x_train)
+
+print("EVALUATION SUR LE JEU DE TEST avec degree 3")
+print (f"RMSE sur le jeu d'entrainement : {round(sqrt(mean_squared_error(y_train, train_prediction3)),2)}")
+print (f"R2 sur le jeu d'entrainement : {round(r2_score(y_train, train_prediction3),2)}")
+graph_test_prediction(y_train, train_prediction3)
+
+#retour parfait avec degree 3
+# EVALUATION SUR LE JEU DE TEST avec degree 3
+# RMSE sur le jeu d'entrainement : 0.0
+# R2 sur le jeu d'entrainement : 1.0
+
+#Testons donc avec les jeux de test 
+
+test_prediction3 = model3.predict(x_test)
+print("EVALUATION SUR LE JEU DE TEST avec degree 3")
+print (f"RMSE sur le jeu de test : {round(sqrt(mean_squared_error(y_test, test_prediction3)),2)}")
+print (f"R2 sur le jeu de test : {round(r2_score(y_test, test_prediction3),2)}")
+graph_test_prediction(y_test, test_prediction3)
+
+#retour catastrophique degree 3 sur jeu de test
+# EVALUATION SUR LE JEU DE TEST avec degree 3
+# RMSE sur le jeu de test : 26.15
+# R2 sur le jeu de test : 0.27
+
+#Explication : overfitting (surapprentissage)
+#Le modèle de degré 3 est trop complexe et s'adapte trop étroitement aux données d'entraînement, capturant non seulement les tendances générales mais aussi le bruit et les fluctuations spécifiques
+#En conséquence, lorsqu'il est appliqué aux données de test, qui contiennent des exemples qu'il n'a jamais vus auparavant, il ne parvient pas à généraliser efficacement, ce qui conduit à des performances médiocres.
+#Cela illustre l'importance de choisir un modèle de complexité appropriée pour éviter le surapprentissage et assurer une bonne capacité de généralisation.
+
+#Montrons encore plus le cas avec degree 6
+
+polynomial_features6 = PolynomialFeatures(degree=6)
+poly_regression_alg6 = LinearRegression()
+model6 = Pipeline ([
+    ("polynomial_features", polynomial_features6),
+    ("linear_regression", poly_regression_alg6)
+])
+model6.fit(x_train, y_train)
+train_prediction6 = model6.predict(x_train)
+print("EVALUATION SUR LE JEU DE TEST avec degree 6")
+print (f"RMSE sur le jeu d'entrainement : {round(sqrt(mean_squared_error(y_train, train_prediction6)),2)}")
+print (f"R2 sur le jeu d'entrainement : {round(r2_score(y_train, train_prediction6),2)}")
+graph_test_prediction(y_train, train_prediction6)   
+#retour parfait avec degree 6
+# EVALUATION SUR LE JEU DE TEST avec degree 6
+
+test_prediction6 = model6.predict(x_test)
+print("EVALUATION SUR LE JEU DE TEST avec degree 6")
+print (f"RMSE sur le jeu de test : {round(sqrt(mean_squared_error(y_test, test_prediction6)),2)}")
+print (f"R2 sur le jeu de test : {round(r2_score(y_test, test_prediction6),2)}")
+graph_test_prediction(y_test, test_prediction6)
+#retour catastrophique degree 6 sur jeu de test
+# EVALUATION SUR LE JEU DE TEST avec degree 6
+# RMSE sur le jeu de test : 142.24
+# R2 sur le jeu de test : -28.31
