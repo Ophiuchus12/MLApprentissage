@@ -74,6 +74,7 @@ train_prediction = regression_alg.predict(x_train)
 
 # Calcul et affichage de la racine de l'erreur quadratique moyenne (RMSE) arrondie à 2 décimales
 # Le RMSE mesure l'écart moyen entre les prédictions et les valeurs réelles d'entraînement
+# Plus le RMSE est bas, plus le modèle est précis
 print (f"RMSE = {round(sqrt(mean_squared_error(y_train, train_prediction)),2)}")
 # Calcul et affichage du coefficient de détermination (R²) arrondi à 2 décimales
 # Le R² mesure la proportion de variance expliquée par le modèle (entre 0 et 1, plus proche de 1 est mieux)

@@ -43,7 +43,6 @@ def standardisation(data_standar):
         standardiz = preprocessing.StandardScaler()
         res = standardiz.fit_transform(x)
         data_standar[col] = res
-    return data_standar
 
 
 standardisation(data)
